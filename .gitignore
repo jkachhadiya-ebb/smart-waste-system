@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Secrets / local env (NEVER commit — contains live credentials)
+.env
+.env.local
+server/.env
+client/.env
+client/.env.local
+client/.env.production
+
+# Build output (Netlify/Render rebuild from source)
+client/dist/
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Logs / OS junk
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,61 @@
+# Render Blueprint — FULL STACK on Render (frontend + backend + PostgreSQL).
+# One web service: the Express server serves the built React app AND the /api routes
+# from the same domain (no CORS, no second host needed).
+#
+# Deploy: Render Dashboard -> New -> Blueprint -> connect this repo.
+# Then restore Database/smart_waste_full_dump.sql into the DB (see DEPLOYMENT.md).
+
+databases:
+  - name: smart-waste-db
+    databaseName: smart_waste
+    user: smart_waste
+    plan: free            # free Postgres (wiped after 30 days; upgrade for permanence)
+
+services:
+  - type: web
+    name: smart-waste
+    runtime: node
+    plan: free
+    region: frankfurt     # change if you prefer another region
+    # Build server deps, then client deps (force devDeps so Vite is available even
+    # though NODE_ENV=production), bake the API URL, then build the React app.
+    buildCommand: >-
+      npm install --prefix server &&
+      npm install --include=dev --prefix client &&
+      printf 'VITE_API_BASE_URL=%s/api\n' "$RENDER_EXTERNAL_URL" > client/.env.production &&
+      npm run build --prefix client
+    startCommand: node server/src/index.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: smart-waste-db
+          property: connectionString
+      - key: DATABASE_SSL
+        value: "true"
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true            # Render generates a strong secret
+      - key: TOTP_ENCRYPTION_KEY
+        sync: false                     # paste a 32-byte hex key (see DEPLOYMENT.md)
+      - key: CLIENT_ORIGIN
+        value: "*"                      # same-origin app; "*" avoids any CORS/socket errors
+      - key: ENABLE_SIMULATOR
+        value: "true"
+      - key: SUPPORTED_LANGUAGES
+        value: "en,de,tr"
+      # ---- Optional: password-reset / notification emails ----
+      - key: FRONTEND_URL
+        sync: false                     # set to your Render URL once known (email links)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false

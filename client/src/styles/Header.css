@@ -1,0 +1,273 @@
+@import "tailwindcss";
+
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--app-background);
+}
+
+/* Full-width header bar */
+.app-header {
+  height: var(--header-height);
+  background: var(--chrome-background);
+  border-bottom: 1px solid var(--chrome-border);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 5px 0 30px var(--chrome-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ❶ Toggle button in header */
+.header-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--chrome-button-background);
+    border: 1px solid var(--chrome-button-border);
+    box-shadow: 0 2px 4px var(--chrome-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.header-toggle:hover {
+    background: var(--chrome-button-hover);
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px var(--chrome-shadow);
+}
+
+.header-toggle:active {
+    transform: scale(0.95);
+}
+
+.toggle-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.header-toggle:hover .toggle-icon {
+    transform: rotate(90deg);
+}
+
+/* Header Logo */
+.app-header-logo {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.25));
+  color: #fff;
+}
+
+.app-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.app-header-right button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.app-header-right button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: var(--chrome-ripple);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.app-header-right button:hover::before {
+    width: 100px;
+    height: 100px;
+}
+
+.app-header-right svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    color: var(--chrome-icon);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.app-header-right button:hover svg {
+    color: var(--chrome-icon-hover);
+    transform: scale(1.15);
+}
+
+.app-header-right button:active {
+    transform: scale(0.95);
+}
+
+.notification-cluster {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.notification-dot {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #ef4444;
+    border: 2px solid var(--panel-background);
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.35);
+    pointer-events: none;
+}
+
+.notification-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: min(340px, 80vw);
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid var(--panel-border-color);
+    background: var(--panel-background);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.18);
+    z-index: 200;
+    animation: notificationPop 0.2s ease;
+}
+
+.notification-popover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.notification-popover-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-heading);
+}
+
+.notification-popover-status {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.notification-popover-text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--text-soft);
+}
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.notification-item {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--panel-border-color);
+    background: var(--surface-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.notification-item--unread {
+    border-color: var(--input-border-strong);
+    background: var(--surface-info);
+}
+
+.notification-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-strong);
+}
+
+.notification-item-message {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.notification-item-time {
+    font-size: 11px;
+    color: var(--text-unit);
+}
+
+@keyframes notificationPop {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 720px) {
+    .notification-popover {
+        right: -6px;
+        width: min(300px, 90vw);
+    }
+}
+
+/* Main layout under the header */
+.layout {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - var(--header-height));
+  padding-top: var(--header-height);
+  background: var(--layout-background);
+}
+
+.content {
+  flex: 1;
+  padding: 10px;
+  transition: margin-left 0.3s ease;
+  margin-left: var(--sidebar-width);
+  min-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+}
+
+.sidebar--collapsed ~ .content {
+  margin-left: var(--sidebar-width-collapsed);
+}
