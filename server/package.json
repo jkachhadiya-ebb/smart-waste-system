@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch src --ext js --exec node src/index.js",
+    "start": "node src/index.js",
+    "server": "node index.js",
+    "create-admin": "node src/createAdmin.js",
+    "migrate": "node -e \"require('dotenv').config();require('./src/migrate').runMigrations().then(()=>{console.log('Done');process.exit(0)}).catch(e=>{console.error(e);process.exit(1)})\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "nodemailer": "^9.0.5",
+    "pdfkit": "^0.17.2",
+    "pg": "^8.16.3",
+    "socket.io": "^4.8.1",
+    "speakeasy": "^2.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
