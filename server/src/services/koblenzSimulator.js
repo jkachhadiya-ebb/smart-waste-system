@@ -105,7 +105,11 @@ async function start() {
   const batchSize = 5;
   const atakumRoutes = new Map();
   const atakumPlayback = new Map();
-  const atakumDestinationWaitMs = 60 * 60 * 1000;
+  const configuredDestinationWaitMs = Number(process.env.ATAKUM_DESTINATION_WAIT_MS);
+  const atakumDestinationWaitMs =
+    Number.isFinite(configuredDestinationWaitMs) && configuredDestinationWaitMs >= 0
+      ? configuredDestinationWaitMs
+      : 30 * 1000;
 
   console.log('Fleet simulator started - following database road geometry every 3 seconds');
 
